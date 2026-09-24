@@ -1,7 +1,7 @@
 페미위키 점검페이지
 =======
 
-![](screenshot.png)
+![Screenshot of the maintenance page](screenshot.png)
 
 <br>
 
