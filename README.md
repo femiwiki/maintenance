@@ -1,5 +1,8 @@
-페미위키 점검페이지
+FemiWiki maintenance page
 =======
+
+The page FemiWiki shows when the site cannot respond. GitHub Pages hosts it, and
+CloudFront serves it as the error page.
 
 ![](screenshot.png)
 
