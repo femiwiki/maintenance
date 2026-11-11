@@ -4,9 +4,7 @@ FemiWiki maintenance page
 The page FemiWiki shows when the site cannot respond. GitHub Pages hosts it, and
 CloudFront serves it as the error page.
 
-![](screenshot.png)
-
-<br>
+![The maintenance page](screenshot.png)
 
 --------
 

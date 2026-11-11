@@ -1,0 +1,40 @@
+name: Required
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A new commit on a pull request cancels the run on its old commit; runs on
+# main each get a group of their own and are never cancelled.
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{ case(github.event_name == 'pull_request',
+    github.event.pull_request.number, github.run_id) }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  shared-lint:
+    uses: femiwiki/.github/.github/workflows/shared-lint.yml@30a15e0ace6fb2bf70dff4d04b4276404a3d10b6
+    permissions:
+      contents: read
+
+  required-gate:
+    uses: femiwiki/.github/.github/workflows/required-gate.yml@30a15e0ace6fb2bf70dff4d04b4276404a3d10b6
+    permissions:
+      contents: read
+
+  # The one check branch protection requires. What has to pass is the
+  # jobs above, so adding a check does not touch femiwiki/infra.
+  required:
+    needs: [shared-lint, required-gate]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Every job above passed or was skipped
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: jq -e 'all(.[]; .result == "success" or .result == "skipped")' <<< "$RESULTS"
